@@ -81,6 +81,10 @@ public class Gamee {
 	int play(Handd h, int nMain) { // h : p1Hand or p2Hand, nMain : nMaincard
 		//exception for winning situation (all cards in hand == null)
 		//for all i, if(h.handd[i] == null)
+		if(h.nHandNum == 0) {
+			System.out.println("is the Winner!");
+			return 100;
+		}
 		int[] LMatch = {0,} ;
 		int n = 0;
 		for(EachCard ec : h.handd) {

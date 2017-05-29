@@ -15,6 +15,7 @@ public class Handd {
 		for(int i = 0; i < 52; i++) {
 			if(handd[i].nIndex == x) {
 				handd[i] = null;
+				nHandNum -= 1;
 			}
 		}
 	}
@@ -23,6 +24,7 @@ public class Handd {
 			for(int i = 0 ; i < 52; i++) {
 				if(handd[i] == null) {
 					handd[i] = new EachCard(x);
+					nHandNum += 1;
 				}
 			}
 		}
