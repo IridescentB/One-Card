@@ -68,9 +68,6 @@ public class Gamee {
 		return a || b;
 	}
 	
-	void play1(int nMainCard) {
-		
-	}
 	
 	void handPrint(Handd h) { // h : p1Hand or p2Hand
 		for(int i = 0; i < 26; i++) {
