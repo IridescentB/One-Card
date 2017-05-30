@@ -13,20 +13,21 @@ public class Deckk {
 	
 	void remove(int x) {
 		for(int i = 0; i < 52; i++) {
-			if(deckk[i].nIndex == x) {
+			if(deckk[i] != null && deckk[i].nIndex == x) {
 				deckk[i] = null;
 				nDeckNum -= 1;
+				break;
 			}
 		}
 	}
 	void append(int x) {
-		while(true) {
-			for(int i = 0 ; i < 52; i++) {
-				if(deckk[i] == null) {
-					deckk[i] = new EachCard(x);
-					nDeckNum += 1;
-				}
+		for(int i = 0 ; i < 52; i++) {
+			if(deckk[i] == null) {
+				deckk[i] = new EachCard(x);
+				nDeckNum += 1;
+				break;
 			}
 		}
 	}
 }
+

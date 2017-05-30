@@ -1,7 +1,7 @@
 package P;
 
 public class Handd {
-	EachCard[] handd = new EachCard[26];
+	EachCard[] handd = new EachCard[52];
 	int nHandNum;
 	
 	Handd() {
@@ -13,19 +13,19 @@ public class Handd {
 	
 	void remove(int x) {
 		for(int i = 0; i < 52; i++) {
-			if(handd[i].nIndex == x) {
+			if(handd[i] != null && handd[i].nIndex == x) {
 				handd[i] = null;
 				nHandNum -= 1;
+				break;
 			}
 		}
 	}
 	void append(int x) {
-		while(true) {
-			for(int i = 0 ; i < 52; i++) {
-				if(handd[i] == null) {
-					handd[i] = new EachCard(x);
-					nHandNum += 1;
-				}
+		for(int i = 0 ; i < 52; i++) {
+			if(handd[i] == null) {
+				handd[i] = new EachCard(x);
+				nHandNum += 1;
+				break;
 			}
 		}
 	}
