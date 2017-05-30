@@ -72,7 +72,7 @@ public class Gamee {
 	
 	
 	void handPrint(Handd h) { // h : p1Hand or p2Hand
-		for(int i = 0; i < 26; i++) {
+		for(int i = 0; i < 52; i++) {
 			if(h.handd[i] != null) {
 				cardInfo(h.handd[i]);
 				System.out.printf(" %s %s %d / ", info[0], info[1], infoIndex); //suite number index
@@ -87,7 +87,7 @@ public class Gamee {
 			System.out.println("Winner!");
 			return 100;
 		}
-		int[] LMatch = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ;
+		int[] LMatch = {99,99,99,99,99,99,99,99,99,99,99,99,99,99,99} ;
 		int n = 0;
 		for(EachCard ec : h.handd) {
 			if(ec != null) {
@@ -103,11 +103,18 @@ public class Gamee {
 			h.append(nGet);
 			return nMain;
 		} else { // choose 1 from matching cards
+			
 			Random random = new Random();
-			nThrow = LMatch[random.nextInt(n+1)];
+			nThrow = LMatch[random.nextInt(n)];
 			h.remove(nThrow);
 			openDeck.append(nThrow);
+			//
+			if(h.nHandNum == 0) {
+				return 100;
+			}
+			//
 			return nThrow;
 		}
+		
 	}
 }

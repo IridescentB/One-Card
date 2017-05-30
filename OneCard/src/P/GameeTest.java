@@ -28,7 +28,14 @@ public class GameeTest {
 			
 			//need to handle p1 winning situation
 			if(nMainCard == 100) {
-				System.out.println(" Player 1 ");
+				System.out.printf("Player 1 Hand: ");
+				game.handPrint(game.p1Hand);
+				System.out.println();
+				System.out.printf("Player 2 Hand: ");
+				game.handPrint(game.p2Hand);
+				System.out.println();
+				System.out.println("=============================");
+				System.out.println(" Winner : Player 1 !");
 				return;
 			}
 			
@@ -46,7 +53,14 @@ public class GameeTest {
 			
 			//need to handle p2 winning situation
 			if(nMainCard == 100) {
-				System.out.println(" Player 2 ");
+				System.out.printf("Player 1 Hand: ");
+				game.handPrint(game.p1Hand);
+				System.out.println();
+				System.out.printf("Player 2 Hand: ");
+				game.handPrint(game.p2Hand);
+				System.out.println();
+				System.out.println("=============================");
+				System.out.println(" Winner : Player 2 !");
 				return;
 			}
 			game.cardInfo(iCard[nMainCard]);
