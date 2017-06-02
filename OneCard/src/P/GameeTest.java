@@ -14,9 +14,10 @@ public class GameeTest {
 		nMainCard = game.randCard();
 		game.closedDeck.remove(nMainCard);
 		game.cardInfo(iCard[nMainCard]);
-		System.out.printf("Main Card : %s %s %d\n", game.info[0], game.info[1], game.infoIndex);
+		System.out.printf("Main Card : %s %s (%d)\n", game.info[0], game.info[1], game.infoIndex);
 		
 		while(true) {
+			/*
 			System.out.printf("Player 1 Hand: ");
 			game.handPrint(game.p1Hand);
 			System.out.println();
@@ -38,7 +39,30 @@ public class GameeTest {
 				System.out.println(" Winner : Player 1 !");
 				return;
 			}
-			
+			*/
+			for(int j = 0; j < 2;j++) {
+				
+				for(int i = 0; i < 2; i++) {	
+					System.out.printf("Player %d Hand: ", i+1);
+					game.handPrint(game.pHands[i]);
+					System.out.println();
+				}
+				System.out.println("=============================");
+				nMainCard = game.play(game.pHands[j], nMainCard);
+				
+				//winning situation
+				if(nMainCard == 100) {
+					for(int i = 0; i < 2; i++) {	
+						System.out.printf("Player %d Hand: ", i+1);
+						game.handPrint(game.pHands[i]);
+						System.out.println();
+					}
+					System.out.println("=============================");
+					System.out.printf(" Winner : Player %d !\n", j+1);
+					return;
+				}
+			}
+			/*
 			game.cardInfo(iCard[nMainCard]);
 			System.out.printf("Main Card : %s %s %d\n", game.info[0], game.info[1], game.infoIndex);
 			
@@ -63,9 +87,10 @@ public class GameeTest {
 				System.out.println(" Winner : Player 2 !");
 				return;
 			}
+			*/
 			game.cardInfo(iCard[nMainCard]);
-			System.out.printf("Main Card : %s %s %d\n", game.info[0], game.info[1], game.infoIndex);
-				
+			System.out.printf("Main Card : %s %s (%d)\n", game.info[0], game.info[1], game.infoIndex);
+			
 		}
 	}
 }

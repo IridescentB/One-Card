@@ -10,12 +10,18 @@ public class Gamee {
 	Deckk openDeck = new Deckk();
 	int nGet; // temp, used in play()
 	int nThrow; // temp, used in play()
+	/*
 	Handd p1Hand = new Handd();
 	Handd p2Hand = new Handd();	
+	*/
+	Handd[] pHands = new Handd[2];
 	
 	Gamee(){
 		for(int i = 0; i<52; i++) {
 			iCard[i] = new EachCard(i);
+		}
+		for(int j = 0; j < 2; j++) {
+			pHands[j] = new Handd();
 		}
 	}
 	
@@ -32,6 +38,10 @@ public class Gamee {
 	
 	int getCardFromClosed() {
 		//need exception for 'No More Card in Closed Deck'
+		if(closedDeck.nDeckNum == 0) {
+			closedDeck = openDeck;
+			openDeck = new Deckk();
+		}
 		while(true) {
 			nGet = this.randCard(); 
 			for(int i = 0; i < 52; i++) {
@@ -45,13 +55,12 @@ public class Gamee {
 	}
 	
 	void prepare() {
-		for(int i = 0; i < 7; i++){ // 2 Players, 7 Cards each
-			nGet = getCardFromClosed();
-			closedDeck.remove(nGet);
-			p1Hand.append(nGet);
-			nGet = getCardFromClosed();
-			closedDeck.remove(nGet);
-			p2Hand.append(nGet);
+		for(int j = 0; j < 2; j++){ // 2 Players, 7 Cards each
+			for(int i = 0; i < 7; i++) {	
+				nGet = getCardFromClosed();
+				closedDeck.remove(nGet);
+				pHands[j].append(nGet);
+			}
 		}
 	}
 	
@@ -75,7 +84,7 @@ public class Gamee {
 		for(int i = 0; i < 52; i++) {
 			if(h.handd[i] != null) {
 				cardInfo(h.handd[i]);
-				System.out.printf(" %s %s %d / ", info[0], info[1], infoIndex); //suite number index
+				System.out.printf(" %s %s (%d) / ", info[0], info[1], infoIndex); //suite number index
 			}
 		}
 	}
