@@ -55,6 +55,9 @@ public class GameeTest {
 			else if(nMainCard%13 == 12 && hasChanged) continue; // special case : K cards act only once
 			else j = (j + jControl + nPlayers)%nPlayers;
 			
+			if(game.closedDeck.nDeckNum == 1) {
+				return;
+			}
 		}
 	}
 }

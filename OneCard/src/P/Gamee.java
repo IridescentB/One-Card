@@ -16,6 +16,7 @@ public class Gamee {
 	*/
 	int nPlayers = 4;
 	Handd[] pHands = new Handd[nPlayers];
+	int nForcedSuite;
 	
 	
 	Gamee(){
@@ -41,8 +42,11 @@ public class Gamee {
 	int getCardFromClosed() {
 		//need exception for 'No More Card in Closed Deck'
 		if(closedDeck.nDeckNum == 0) {
+			/*
 			closedDeck = openDeck;
 			openDeck = new Deckk();
+			*/
+
 		}
 		while(true) {
 			nGet = this.randCard(); 
@@ -66,18 +70,10 @@ public class Gamee {
 		}
 	}
 	
-	boolean match(int nMe, int nAnother) {
+	boolean match(int nMe, int nN, int nS) {
 		boolean a,b;
-		if(iCard[nMe].sSuite.equals(iCard[nAnother].sSuite)) {
-			a = true;
-		} else {
-			a = false;
-		}
-		if(iCard[nMe].sNum.equals(iCard[nAnother].sNum)) {
-			b = true;
-		} else {
-			b = false;
-		}
+		a = (nMe%13 == nN);
+		b = (nMe/13 == nS);
 		return a || b;
 	}
 	
@@ -93,17 +89,22 @@ public class Gamee {
 	}
 	
 	int play(Handd h, int nMain) { // h : p1Hand or p2Hand, nMain : nMaincard
-		//exception for winning situation (all cards in hand == null)
-		//for all i, if(h.handd[i] == null)
+		System.out.printf("nForcedSuite: %d\n", nForcedSuite);
 		if(h.nHandNum == 0) {
 			System.out.println("Winner!");
 			return 100;
 		}
 		int[] LMatch = {99,99,99,99,99,99,99,99,99,99,99,99,99,99,99} ;
 		int n = 0;
+		
+		int nN = nMain%13;
+		int nS = nMain/13;
+		if(nMain%13 == 6) {
+			nS = nForcedSuite;
+		}
 		for(EachCard ec : h.handd) {
-			if(ec != null) {
-				if(match(ec.nIndex, nMain)) {
+			if(ec != null) {	
+				if(match(ec.nIndex, nN, nS)) {
 					LMatch[n] = ec.nIndex;
 					n++;
 				}
@@ -115,18 +116,24 @@ public class Gamee {
 			h.append(nGet);
 			return nMain;
 		} else { // choose 1 from matching cards
-			
 			Random random = new Random();
 			nThrow = LMatch[random.nextInt(n)];
 			h.remove(nThrow);
 			openDeck.append(nThrow);
-			//
 			if(h.nHandNum == 0) {
 				return 100;
 			}
-			//
+			if(nThrow%13 == 6) {
+				while(true) {
+					int x = random.nextInt(52);
+					if(h.handd[x] != null) {
+						nForcedSuite = (h.handd[x].nIndex)/13;
+						System.out.printf("Player forced suite to %d\n", nForcedSuite);
+						break;
+					}
+				}
+			}
 			return nThrow;
 		}
-		
 	}
 }
