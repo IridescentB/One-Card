@@ -14,13 +14,15 @@ public class Gamee {
 	Handd p1Hand = new Handd();
 	Handd p2Hand = new Handd();	
 	*/
-	Handd[] pHands = new Handd[2];
+	int nPlayers = 4;
+	Handd[] pHands = new Handd[nPlayers];
+	
 	
 	Gamee(){
 		for(int i = 0; i<52; i++) {
 			iCard[i] = new EachCard(i);
 		}
-		for(int j = 0; j < 2; j++) {
+		for(int j = 0; j < nPlayers ; j++) {
 			pHands[j] = new Handd();
 		}
 	}
@@ -55,7 +57,7 @@ public class Gamee {
 	}
 	
 	void prepare() {
-		for(int j = 0; j < 2; j++){ // 2 Players, 7 Cards each
+		for(int j = 0; j < nPlayers ; j++){ // 2 Players, 7 Cards each
 			for(int i = 0; i < 7; i++) {	
 				nGet = getCardFromClosed();
 				closedDeck.remove(nGet);
@@ -87,6 +89,7 @@ public class Gamee {
 				System.out.printf(" %s %s (%d) / ", info[0], info[1], infoIndex); //suite number index
 			}
 		}
+		System.out.println();
 	}
 	
 	int play(Handd h, int nMain) { // h : p1Hand or p2Hand, nMain : nMaincard
