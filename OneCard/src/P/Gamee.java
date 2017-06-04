@@ -17,7 +17,7 @@ public class Gamee {
 	int nPlayers = 4;
 	Handd[] pHands = new Handd[nPlayers];
 	int nForcedSuite;
-	
+	boolean hasDrawn;
 	
 	Gamee(){
 		for(int i = 0; i<52; i++) {
@@ -40,13 +40,10 @@ public class Gamee {
 	}
 	
 	int getCardFromClosed() {
-		//need exception for 'No More Card in Closed Deck'
+		// 'No More Card in Closed Deck' > make Open Deck to Closed Deck 
 		if(closedDeck.nDeckNum == 0) {
-			/*
 			closedDeck = openDeck;
 			openDeck = new Deckk();
-			*/
-
 		}
 		while(true) {
 			nGet = this.randCard(); 
@@ -72,8 +69,28 @@ public class Gamee {
 	
 	boolean match(int nMe, int nN, int nS) {
 		boolean a,b;
-		a = (nMe%13 == nN);
-		b = (nMe/13 == nS);
+		if(nN == 1 && hasDrawn == false) { // special case : card 2
+			if(nS == nMe/13 && nMe%13 == 0) { // same suite A
+				return true;
+			} else if (nN == 1 && hasDrawn == false){
+				a = (nMe%13 == nN); // only 2
+				b = false; // not the same suite cards
+			} else {
+				a = (nMe%13 == nN); // same num
+				b = (nMe/13 == nS); // same suite
+			}
+		} else if(nN == 0) {
+			if(hasDrawn == false) { // special case : card A
+				a = (nMe%13 == nN); // only A
+				b = false;
+			} else {
+				a = (nMe%13 == nN); // same num
+				b = (nMe/13 == nS); // same suite
+			}
+		} else {
+			a = (nMe%13 == nN); // same num
+			b = (nMe/13 == nS); // same suite
+		}
 		return a || b;
 	}
 	
@@ -88,7 +105,7 @@ public class Gamee {
 		System.out.println();
 	}
 	
-	int play(Handd h, int nMain) { // h : p1Hand or p2Hand, nMain : nMaincard
+	int play(Handd h, int nMain) { // h : each player's hand , nMain : nMaincard
 		System.out.printf("nForcedSuite: %d\n", nForcedSuite);
 		if(h.nHandNum == 0) {
 			System.out.println("Winner!");
@@ -99,9 +116,14 @@ public class Gamee {
 		
 		int nN = nMain%13;
 		int nS = nMain/13;
-		if(nMain%13 == 6) {
-			nS = nForcedSuite;
+		if(nMain%13 == 6) { // special case : card 7
+			nS = nForcedSuite; // previous player(card 7,forced suite), current player has to follow this, not main card's suite
 		}
+		/*
+		if(nMain%13 == 1) { // special case : card 2
+			nN = nForcedNum; // previous player (card 2), current player has to throw 2 or A (same suite)
+		}
+		*/
 		for(EachCard ec : h.handd) {
 			if(ec != null) {	
 				if(match(ec.nIndex, nN, nS)) {
@@ -114,6 +136,12 @@ public class Gamee {
 			nGet = getCardFromClosed();
 			closedDeck.remove(nGet);
 			h.append(nGet);
+			if(hasDrawn == false) { // special case : card 2 or A : draw one more card 
+				nGet = getCardFromClosed();
+				closedDeck.remove(nGet);
+				h.append(nGet);
+			}
+			hasDrawn = true;
 			return nMain;
 		} else { // choose 1 from matching cards
 			Random random = new Random();
@@ -123,15 +151,20 @@ public class Gamee {
 			if(h.nHandNum == 0) {
 				return 100;
 			}
-			if(nThrow%13 == 6) {
+			if(nThrow%13 == 6) { // special case : card 7
 				while(true) {
 					int x = random.nextInt(52);
 					if(h.handd[x] != null) {
-						nForcedSuite = (h.handd[x].nIndex)/13;
+						nForcedSuite = (h.handd[x].nIndex)/13; // randomly pick suite from my hand
 						System.out.printf("Player forced suite to %d\n", nForcedSuite);
 						break;
 					}
 				}
+			}
+			if(nThrow%13 == 1 || nThrow%13 == 0) { // special case : card 2 or A
+				hasDrawn = false;
+			} else {
+				hasDrawn = true;
 			}
 			return nThrow;
 		}
